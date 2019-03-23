@@ -8,22 +8,20 @@
 * A4: NC
 * A5: NC
 * 
-* pin0 : NC
-* pin1 : NC
-* pin2 : NC
-* pin3 : NC
-* 
-* pin4 : NC
-* pin5 : NC
-* pin6 : NC
-* pin7 : NC
-* pin8 : NC
-* 
-* pin9 : NC
-* pin10 : NC
-* pin11 : NC
-* pin12 : NC
-* pin13 : NC 
+* D0 : RX rs232 non utilise
+* D1 : TX rs232 non utilise
+* D2 : NC
+* D3 : NC
+* D4 : SS Shield-Ethernet-Arduino SD
+* D5 : NC
+* D6 : NC
+* D7 : NC
+* D8 : NC
+* D9 : NC
+* D10 : SS Shield-Ethernet-Arduino
+* D11 : MOSI Shield-Ethernet-Arduino
+* D12 : MISO Shield-Ethernet-Arduino
+* D13 : SCK Shield-Ethernet-Arduino
 * 
 * I2C : NC
 * I2C : NC
