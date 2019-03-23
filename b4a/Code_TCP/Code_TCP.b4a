@@ -1,7 +1,7 @@
 ﻿Version=5.02
 NumberOfModules=0
 Build1=Default,b4a.example
-Build2=test_udp,b4a.example.test.udp
+Build2=test_tcp,b4a.example.test.tcp
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="14"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
 IconFile=
 NumberOfFiles=1
@@ -10,13 +10,13 @@ NumberOfLibraries=5
 Library1=byteconverter
 Library2=core
 Library3=network
-Library4=udp
-Library5=randomaccessfile
+Library4=randomaccessfile
+Library5=tcp_client
 @EndOfDesignText@
 #Region Module Attributes
 	#FullScreen: False
 	#IncludeTitle: True
-	#ApplicationLabel: UDP Test Arduino
+	#ApplicationLabel: TCP Test Arduino
 	#VersionCode: 1
 	#VersionName: 
 	#SupportedOrientations: portrait
@@ -43,12 +43,12 @@ End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
     Activity.LoadLayout("layout1")
-    UDP.Initialise(3200)
 	
 End Sub
 
 Sub Connexion_Click
 	Adressepc=IP_Arduino_EditText.text
+	TCP_client.connexion(Adressepc,5500)
 End Sub
 
 Sub button1_click
@@ -58,18 +58,19 @@ Sub button1_click
 	message=EditText1.Text'"EPrise"
 	Label1.Text=message
 	emission=bc.StringToBytes(message,"ASCII")
-	UDP.emission(Adressepc,5500,emission)
+	TCP_client.emission(emission)
 End Sub
 	
-Sub UDP_PacketArrived (packet As UDPPacket)
-    Dim message As String
-	message=UDP.reception(packet)
-	If message="acknowledged" Then
-   		Label1.Text=message
-	Else
-		Donnee_capteur.Text=message
-	End If
-		
+Sub TCP_client_Connected (Succes As Boolean)
+	If Succes = True Then
+		Messages.Text="Connexion TCP réussit"
+	End If 		
+End Sub
+
+Sub TCP_client_newdata(buffer() As Byte)
+	Dim message As String
+	message=BytesToString(buffer,0,buffer.Length,"ASCII")
+	Donnee_capteur.Text=message
 End Sub
 
 Sub Arrete_Click
@@ -79,7 +80,7 @@ Sub Arrete_Click
 	message="Arrete"
 	Messages.Text="Arreter le Store"
 	emission=bc.StringToBytes(message,"ASCII")
-	UDP.emission(Adressepc,5500,emission)
+	TCP_client.emission(emission)
 End Sub
 
 Sub Acquerir_capteur_Click
@@ -89,5 +90,5 @@ Sub Acquerir_capteur_Click
 	message="Acquer"
 	Messages.Text="Acquisition des capteurs"
 	emission=bc.StringToBytes(message,"ASCII")
-	UDP.emission(Adressepc,5500,emission)
+	TCP_client.emission(emission)
 End Sub
