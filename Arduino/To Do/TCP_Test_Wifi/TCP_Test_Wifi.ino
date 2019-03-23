@@ -35,7 +35,6 @@
 */
 
 #include <WiFi.h>
-#include <WiFiUdp.h>
 #include <SPI.h>
 
 //Shield Ethernet sans Aoe Numero 2
@@ -43,78 +42,24 @@ int status = WL_IDLE_STATUS;
 char ssid[] = "MarcusEtire";         // Nom du réseau wifi
 char pass[] = "5D9D659735CE67DD367942A137";       // votre mot de passe réseau wifi(utilisez pour WPA ou comme clé pour WEP)
 int keyIndex = 0;                 // votre numéro d'index de clé de réseau (nécessaire uniquement pour WEP)
-unsigned int localPort = 5500;        // port local sur lequel écouter
-
-WiFiUDP Udp;
 
 void setup() {
   Serial.begin(9600);
   Serial.println("Début Setup");
   status = WiFi.begin(ssid,pass);
   printWifiStatus();
-  Udp.begin(localPort);
   Serial.println("Fin Setup");
 }
 
 void loop() {
-  // Protocole Udp
-  int Size=Udp.parsePacket();
-  char message[Size];
-
-  //Variable Capteur temperature et humidité
+  // Protocole TCP
+  String conv_message_to_string;
+  
+    //Variable Capteur temperature et humidité
   float capteur1 = 10.10;
   int capteur2 = 20;
   
-   if(Size)
-  {
-    // lit le paquet dans packetBufffer
-    Udp.read(message, Size);
-    int cases = 0;
-    while (cases != Size)
-    {
-      conv_message_to_string = conv_message_to_string + message[cases];
-      cases = cases+1;
-    }
-    
-    Serial.print("Paquet reçu de taille : ");
-    Serial.println(Size);
-    Serial.print("Adresse IP de  ");
-    IPAddress remote = Udp.remoteIP();
-    Serial.print(remote);
-    Serial.print(", sur le port ");
-    Serial.println(Udp.remotePort());
-    Serial.println("Msg UDP:");
-    Serial.println(conv_message_to_string);
-
-    if(conv_message_to_string=="Acquer")
-    {
-      Serial.print("Le message est : ");
-      Serial.print("Capteur actualisé");
-      
-      delay(1);
-      
-      Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-      
-      Udp.write("Capteur 1 = ");
-      Udp.print(capteur1);
-      Udp.write(" unite");
-      Udp.write("\n");
-      Udp.write("Pression = ");
-      Udp.print(capteur2);
-      Udp.write(" unite");
-      Udp.write("\n");
-      Udp.endPacket();
-    }
-    else
-    {
-      char  ReplyBuffer[] = "acknowledged";
-      Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-      Udp.write(ReplyBuffer);
-      Udp.endPacket();
-    }
-  }
-
-  /*Liste instruction pour B4A :
+   /*Liste instruction pour B4A :
    * Arrete : Arreter le store
    */
 
