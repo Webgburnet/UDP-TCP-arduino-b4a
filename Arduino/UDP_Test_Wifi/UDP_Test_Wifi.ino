@@ -60,6 +60,7 @@ void loop() {
   // Protocole Udp
   int Size=Udp.parsePacket();
   char message[Size];
+  String conv_message_to_string;
 
   //Variable Capteur temperature et humidité
   float capteur1 = 10.10;
