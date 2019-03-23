@@ -1,6 +1,4 @@
 /* 
-* PROJET DOMOTIQUE STI2D SIN
-* 
 * Arduino Uno
 * 
 * A0: NC
@@ -38,17 +36,21 @@
 #include <SPI.h>
 #include <Wire.h>
 
-//Shield Ethernet sans Aoe Numero 2
+//Shield Wifi
 int status = WL_IDLE_STATUS;
 char ssid[] = "MarcusEtire";         // Nom du réseau wifi
 char pass[] = "5D9D659735CE67DD367942A137";       // votre mot de passe réseau wifi(utilisez pour WPA ou comme clé pour WEP)
 int keyIndex = 0;                 // votre numéro d'index de clé de réseau (nécessaire uniquement pour WEP)
 
+//TCP protocole
 unsigned int port_local=5500;
 WiFiServer server(port_local);
-boolean change=false;
 
-void setup() {
+String save_message;
+String cmd_message;
+
+void setup() 
+{
   Serial.begin(9600);
   Serial.println("Début Setup");
   status = WiFi.begin(ssid,pass);
@@ -57,34 +59,56 @@ void setup() {
   Serial.println("Fin Setup");
 }
 
-void loop() {
+void loop() 
+{
   // Protocole TCP
   String conv_message_to_string;
   WiFiClient client = server.available();
   
-    //Variable Capteur temperature et humidité
+    //Capteur
   float capteur1 = 10.10;
   int capteur2 = 20;
   String string_capteur1 (capteur1);
   String string_capteur2 (capteur2);
+  //  Serial.print("capteur1 : ");
+  //  Serial.println(string_capteur1);
+  //  Serial.print("capteur2 : ");
+  //  Serial.println(string_capteur2);
 
+ //Requete TCP
  if (client) 
  {
-  while (client.connected()==true) 
-  {
     client.flush();
-    conv_message_to_string="";
-    change=false;      
+    conv_message_to_string="";    
     while (client.available() > 0) 
     {
       char c = client.read();
       conv_message_to_string+=c;
-      Serial.print("Commande b4a :");
-      Serial.println(conv_message_to_string);
-      change=true;
+//      Serial.print("Commande b4a :");
+//      Serial.println(conv_message_to_string);
+    }
+//    Serial.print("Commande b4a :");
+//    Serial.println(conv_message_to_string);
+    
+    if(conv_message_to_string=="")
+    {
+      //Ne rien faire
+        save_message="";
+        cmd_message="";
+    }
+    else
+    {
+      if(conv_message_to_string=="Acquer")
+      {
+        save_message=conv_message_to_string; 
+      }
+      else
+      {
+        cmd_message=conv_message_to_string;
+      }
     }
             
-    if (change == true || conv_message_to_string=="Acquer") 
+    if (save_message=="Acquer") 
     {
       Serial.println("Client connecte");
       Serial.print("Message : ");
@@ -93,15 +117,15 @@ void loop() {
       Serial.println(string_capteur1);
       Serial.print("capteur2 : ");
       Serial.println(string_capteur2);
-      client.print("Message recu :"+conv_message_to_string+"capteur1 : "+string_capteur1+"capteur2 : "+string_capteur2);
+      client.print("Message recu :"+conv_message_to_string+"\n"+"Capteur1 : "+string_capteur1+"\n"+"capteur2 : "+string_capteur2);
      }
-    }
   }
+  
    /*Liste instruction pour B4A :
    * Arrete : Arreter le store
    */
 
-   if(conv_message_to_string=="Arrete")
+   if(cmd_message=="Arrete")
    {
     Serial.println("Action de l'arduino");
    }

@@ -1,6 +1,4 @@
 /* 
-* PROJET DOMOTIQUE STI2D SIN
-* 
 * Arduino Uno
 * 
 * A0: NC
