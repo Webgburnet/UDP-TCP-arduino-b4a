@@ -1,12 +1,21 @@
 # UDP-TCP-arduino-b4a
 
 ## Composants
+| Arduino | B4A |
+| :-------------: | :-------------: |
+| ![](/icone/Arduino.png) | ![](/icone/B4A.png) |
 
-### Arduino_Uno
-![Arduino_Uno]()
+### Arduino
+| Arduino Mega  | Arduino Uno|
+| :-------------: | :-------------: |
+| ![](/composants/Arduino%20Mega.jpg) | ![](/composants/Arduino%20Uno.jpg) |
+
+### Shield
+| Shield Ethernet | Shield WiFi |
+| :-------------: | :-------------: |
+| ![](/composants/Shield_Arduino_Ethernet.jpg)  | ![](/composants/Arduino%20WiFi%20Shield.jpg)  |
 
 ## Branchement
-![Fritzing]()
 
 ### Shield
 * Shield-Wifi-Arduino
