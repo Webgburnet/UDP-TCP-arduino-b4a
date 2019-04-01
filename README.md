@@ -1,9 +1,14 @@
 # UDP-TCP-arduino-b4a
 
+## Logiciels
+| Arduino | Fritzing | B4A | Android |
+| :-----: | :------: | :-----: | :---------: |
+| ![](/icone/Arduino.png) | ![](/icone/Fritzing.png) | ![](/icone/B4A.png) | ![](/icone/Android.png) |
+
 ## Composants
-| Arduino | B4A |
-| :-------------: | :-------------: |
-| ![](/icone/Arduino.png) | ![](/icone/B4A.png) |
+| Arduino |
+| :-----: |
+| ![](/icone/Arduino.png) |
 
 ### Arduino
 | Arduino Mega  | Arduino Uno|
@@ -16,6 +21,11 @@
 | ![](/composants/Shield_Arduino_Ethernet.jpg)  | ![](/composants/Arduino%20WiFi%20Shield.jpg)  |
 
 ## Branchement
+| Fritzing |
+| :-------------: |
+| ![](/icone/Fritzing.png) |
+
+![](/fritzing/Untitled_Sketch.png)
 
 ### Shield
 * Shield-Wifi-Arduino
